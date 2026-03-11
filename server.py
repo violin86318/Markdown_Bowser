@@ -14,6 +14,7 @@ Usage:
 """
 
 import argparse
+import base64
 import html
 import mimetypes
 import os
@@ -369,7 +370,27 @@ class MarkdownHandler(SimpleHTTPRequestHandler):
             result = os.path.join(result, part)
         return result
 
+    def check_auth(self):
+        if getattr(self, 'auth_b64', None):
+            auth_header = self.headers.get('Authorization')
+            if auth_header != f"Basic {self.auth_b64}":
+                self.send_response(401)
+                self.send_header('WWW-Authenticate', 'Basic realm="Markdown Bowser"')
+                self.send_header('Content-type', 'text/html; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(b"<h1>401 Unauthorized</h1><p>Please provide valid credentials.</p>")
+                return False
+        return True
+
+    def do_HEAD(self):
+        if not self.check_auth():
+            return
+        super().do_HEAD()
+
     def do_GET(self):
+        if not self.check_auth():
+            return
+
         fs_path = self.translate_path(self.path)
 
         # Security: must be inside root
@@ -534,6 +555,7 @@ def main():
     parser.add_argument("--host", default=DEFAULT_HOST, help=f"Bind address (default: {DEFAULT_HOST})")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help=f"Port (default: {DEFAULT_PORT})")
     parser.add_argument("--root", default=DEFAULT_ROOT, help=f"Root directory (default: {DEFAULT_ROOT})")
+    parser.add_argument("--auth", default=None, help="Basic Auth credentials (format: user:password)")
     args = parser.parse_args()
 
     root = os.path.abspath(args.root)
@@ -542,6 +564,10 @@ def main():
         raise SystemExit(1)
 
     MarkdownHandler.root_dir = root
+    if args.auth:
+        MarkdownHandler.auth_b64 = base64.b64encode(args.auth.encode('utf-8')).decode('ascii')
+    else:
+        MarkdownHandler.auth_b64 = None
 
     server = ThreadedHTTPServer((args.host, args.port), MarkdownHandler)
     print(f"🚀 Markdown Bowser running at http://{args.host}:{args.port}")

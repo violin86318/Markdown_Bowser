@@ -10,3 +10,7 @@ markdown-bowser.log
 __pycache__/
 *.py[cod]
 *$py.class
+
+# User Configuration (Sensitive Info)
+config.sh
+bin/

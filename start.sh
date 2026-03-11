@@ -5,6 +5,15 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Try to load user config
+CFG_FILE="${SCRIPT_DIR}/config.sh"
+if [ ! -f "$CFG_FILE" ]; then
+    echo "❌ Error: config.sh not found. Please copy config.example.sh to config.sh and configure your paths."
+    exit 1
+fi
+source "$CFG_FILE"
+
 LOG_FILE="${SCRIPT_DIR}/markdown-bowser.log"
 PID_FILE="${SCRIPT_DIR}/.server.pid"
 
@@ -27,7 +36,8 @@ echo "🚀 Starting Markdown Bowser background service..."
 nohup /opt/anaconda3/bin/python3 "${SCRIPT_DIR}/server.py" \
     --host "0.0.0.0" \
     --port "8642" \
-    --root "${SCRIPT_DIR}" > "$LOG_FILE" 2>&1 &
+    --root "${TARGET_ROOT}" \
+    --auth "${AUTH_CREDS}" > "$LOG_FILE" 2>&1 &
 NEW_PID=$!
 echo $NEW_PID > "$PID_FILE"
 
@@ -40,7 +50,7 @@ else
     exit 1
 fi
 
-echo "📂 Root: ${SCRIPT_DIR}"
+echo "📂 Root: ${TARGET_ROOT}"
 echo ""
 
 # Show LAN IPs

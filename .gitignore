@@ -1,0 +1,12 @@
+# Logs
+*.log
+markdown-bowser.log
+.server.pid
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class

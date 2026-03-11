@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.markdown-bowser</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/anaconda3/bin/python3</string>
+        <string>/Users/wanglingwei/Documents/Antigravity/websites/Markdown_Bowser/server.py</string>
+        <string>--host</string>
+        <string>0.0.0.0</string>
+        <string>--port</string>
+        <string>8642</string>
+        <string>--root</string>
+        <string>/Users/wanglingwei/Documents/Antigravity/websites/Markdown_Bowser</string>
+    </array>
+
+    <!-- Auto-start on login -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Restart automatically -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Logging -->
+    <key>StandardOutPath</key>
+    <string>/Users/wanglingwei/Library/Logs/markdown-bowser.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/wanglingwei/Library/Logs/markdown-bowser.log</string>
+
+</dict>
+</plist>

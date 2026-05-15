@@ -21,7 +21,9 @@ Copy the example configuration file and set your private parameters:
 cp config.example.sh config.sh
 nano config.sh
 ```
-In `config.sh`, set your `TARGET_ROOT` (the folder holding your markdown notes) and your `AUTH_CREDS` (username:password) to protect your web interface. If you need to browse directories outside `TARGET_ROOT`, set `ALLOWED_ROOTS` to a comma-separated list of absolute paths.
+In `config.sh`, set your `TARGET_ROOT` (the folder holding your markdown notes) and your `AUTH_CREDS` (username:password) to protect your web interface. Each computer should use its own local absolute paths.
+
+If you need to browse directories outside `TARGET_ROOT`, set `ALLOWED_ROOTS` to a comma-separated list of absolute paths for that computer. For example, a URL such as `/~Vibe-Coding/` normally means there is a `~Vibe-Coding` directory or symlink under `TARGET_ROOT`; if that symlink points outside `TARGET_ROOT`, add the real target path to `ALLOWED_ROOTS`.
 
 ### 2. Manual Start (Local Network)
 If you just want to run the server temporarily in the background on your local network:

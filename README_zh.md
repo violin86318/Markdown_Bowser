@@ -21,7 +21,9 @@
 cp config.example.sh config.sh
 nano config.sh
 ```
-在 `config.sh` 内，设置你的 `TARGET_ROOT`（存放你 Markdown 笔记的绝对文件夹路径）并且修改 `AUTH_CREDS`（用户名:密码）来保护你的外网访问界面。如果需要浏览 `TARGET_ROOT` 之外的目录，把 `ALLOWED_ROOTS` 设置为逗号分隔的绝对路径列表。
+在 `config.sh` 内，设置你的 `TARGET_ROOT`（存放你 Markdown 笔记的绝对文件夹路径）并且修改 `AUTH_CREDS`（用户名:密码）来保护你的外网访问界面。不同电脑应该填写这台电脑自己的本地绝对路径。
+
+如果需要浏览 `TARGET_ROOT` 之外的目录，把 `ALLOWED_ROOTS` 设置为这台电脑上的逗号分隔绝对路径列表。例如 `/~Vibe-Coding/` 这种 URL 通常表示 `TARGET_ROOT` 下面有一个 `~Vibe-Coding` 目录或软链接；如果这个软链接指向 `TARGET_ROOT` 外部，就要把它真实指向的目录加入 `ALLOWED_ROOTS`。
 
 ### 2. 手动启动 (仅限局域网)
 如果你只想在处于本地局域网时让它在后台临时运行：

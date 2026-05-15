@@ -38,11 +38,17 @@ lsof -ti :8642 | xargs kill -9 2>/dev/null || true
 pkill -f "cloudflared tunnel" 2>/dev/null || true
 
 # 2. Start Python server in the background
+ALLOW_ARGS=()
+if [ -n "${ALLOWED_ROOTS:-}" ]; then
+    ALLOW_ARGS=(--allow "${ALLOWED_ROOTS}")
+fi
+
 /opt/anaconda3/bin/python3 "${DAEMON_DIR}/server.py" \
     --host "0.0.0.0" \
     --port "8642" \
     --root "${TARGET_ROOT}" \
-    --auth "${AUTH_CREDS}" > "$SERVER_LOG" 2>&1 &
+    --auth "${AUTH_CREDS}" \
+    "${ALLOW_ARGS[@]}" > "$SERVER_LOG" 2>&1 &
 
 # Wait for server to bind
 sleep 3

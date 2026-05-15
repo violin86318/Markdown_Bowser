@@ -393,10 +393,10 @@ class MarkdownHandler(SimpleHTTPRequestHandler):
 
         fs_path = self.translate_path(self.path)
 
-        # Security: must be inside root
-        real_root = os.path.realpath(self.root_dir)
+        # Security: must be inside an allowed root.
         real_path = os.path.realpath(fs_path)
-        if not real_path.startswith(real_root):
+        allowed = getattr(self, "allowed_roots", [os.path.realpath(self.root_dir)])
+        if not any(os.path.commonpath([real_path, root]) == root for root in allowed):
             self.send_error(403, "Forbidden")
             return
 
@@ -556,6 +556,7 @@ def main():
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help=f"Port (default: {DEFAULT_PORT})")
     parser.add_argument("--root", default=DEFAULT_ROOT, help=f"Root directory (default: {DEFAULT_ROOT})")
     parser.add_argument("--auth", default=None, help="Basic Auth credentials (format: user:password)")
+    parser.add_argument("--allow", default=None, help="Additional allowed root paths (comma-separated)")
     args = parser.parse_args()
 
     root = os.path.abspath(args.root)
@@ -564,6 +565,12 @@ def main():
         raise SystemExit(1)
 
     MarkdownHandler.root_dir = root
+    MarkdownHandler.allowed_roots = [os.path.realpath(root)]
+    if args.allow:
+        for path in args.allow.split(","):
+            path = path.strip()
+            if path and os.path.isdir(path):
+                MarkdownHandler.allowed_roots.append(os.path.realpath(path))
     if args.auth:
         MarkdownHandler.auth_b64 = base64.b64encode(args.auth.encode('utf-8')).decode('ascii')
     else:

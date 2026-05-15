@@ -21,7 +21,7 @@ Copy the example configuration file and set your private parameters:
 cp config.example.sh config.sh
 nano config.sh
 ```
-In `config.sh`, set your `TARGET_ROOT` (the folder holding your markdown notes) and your `AUTH_CREDS` (username:password) to protect your web interface.
+In `config.sh`, set your `TARGET_ROOT` (the folder holding your markdown notes) and your `AUTH_CREDS` (username:password) to protect your web interface. If you need to browse directories outside `TARGET_ROOT`, set `ALLOWED_ROOTS` to a comma-separated list of absolute paths.
 
 ### 2. Manual Start (Local Network)
 If you just want to run the server temporarily in the background on your local network:

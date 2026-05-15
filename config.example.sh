@@ -9,6 +9,10 @@
 # Example: export TARGET_ROOT="/Users/username/Documents/Notes"
 export TARGET_ROOT="/path/to/your/markdown/directory"
 
+# Optional: comma-separated extra directories that may be browsed through URL
+# paths when they are outside TARGET_ROOT.
+export ALLOWED_ROOTS=""
+
 # 🔒 HTTP Basic Auth credentials for securely accessing the preview web interface.
 # Format: "username:password"
 # Note: Anyone who clicks your Cloudflare Tunnel link will be prompted for this.

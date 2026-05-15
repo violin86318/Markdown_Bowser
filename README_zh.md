@@ -21,7 +21,7 @@
 cp config.example.sh config.sh
 nano config.sh
 ```
-在 `config.sh` 内，设置你的 `TARGET_ROOT`（存放你 Markdown 笔记的绝对文件夹路径）并且修改 `AUTH_CREDS`（用户名:密码）来保护你的外网访问界面。
+在 `config.sh` 内，设置你的 `TARGET_ROOT`（存放你 Markdown 笔记的绝对文件夹路径）并且修改 `AUTH_CREDS`（用户名:密码）来保护你的外网访问界面。如果需要浏览 `TARGET_ROOT` 之外的目录，把 `ALLOWED_ROOTS` 设置为逗号分隔的绝对路径列表。
 
 ### 2. 手动启动 (仅限局域网)
 如果你只想在处于本地局域网时让它在后台临时运行：
